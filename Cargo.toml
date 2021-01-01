@@ -1,0 +1,21 @@
+[package]
+name = "DTOS"
+description = "Dipping Toe OS. Dipping my toe into AArch64, Rust, SeL4/L4 microkernel designs and more."
+version = "0.0.0"
+edition = "2018"
+
+[lib]
+name = "lkernel"
+path = "kernel/lib.rs"
+
+[[bin]]
+name = "kernel"
+path = "kernel/bin/main.rs"
+
+[profile.release]
+lto = "fat"
+
+[dependencies]
+qemu-exit = "1.0"
+static_assertions = "1.1.0"
+spin = "0.7"
