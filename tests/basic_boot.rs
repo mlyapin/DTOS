@@ -6,9 +6,17 @@
 
 mod must_not_panic;
 
+use lkernel::{
+    regapi,
+    early,
+    kprint
+};
+
 #[no_mangle]
 pub extern "C" fn kernel_init() -> ! {
-    lkernel::early::uart0::GLOBAL.lock().init();
+    let uart = regapi::RegFile::at_addr(early::rpi3bp::UART0_BASE);
+    let gpio = regapi::RegFile::at_addr(early::rpi3bp::GPIO_BASE);
+    kprint::register_writer(early::uart0::Uart0::create_global(uart, gpio));
     tests_main();
     loop {}
 }

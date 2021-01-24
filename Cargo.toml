@@ -17,5 +17,4 @@ lto = "fat"
 
 [dependencies]
 qemu-exit = "1.0"
-static_assertions = "1.1.0"
 spin = "0.7"

@@ -10,15 +10,17 @@
 
 pub mod boot;
 pub mod util;
-pub mod machine;
-pub mod mmio;
-pub mod mbox;
 pub mod early;
+pub mod sync;
+pub mod regapi;
+pub mod kprint;
 
 #[cfg(test)]
 #[no_mangle]
 pub extern "C" fn kernel_init() -> ! {
-    early::uart0::GLOBAL.lock().init();
+    let uart = regapi::RegFile::at_addr(early::rpi3bp::UART0_BASE);
+    let gpio = regapi::RegFile::at_addr(early::rpi3bp::GPIO_BASE);
+    kprint::register_writer(early::uart0::Uart0::create_global(uart, gpio));
 
     tests_main();
     loop {}

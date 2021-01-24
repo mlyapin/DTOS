@@ -8,7 +8,7 @@
   "linker-flavor": "ld.lld",
   "linker-is-gnu": true,
   "pre-link-args": {
-    "ld.lld": ["-Tkernel/machine/rpi3bp.ld"]
+    "ld.lld": ["-Trpi3bp.ld"]
   },
   "llvm-target": "aarch64-unknown-none",
   "max-atomic-width": 128,

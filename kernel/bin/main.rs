@@ -4,34 +4,31 @@
 #![test_runner(lkernel::util::testing::unit_tests_runner)]
 #![reexport_test_harness_main = "tests_main"]
 
-use lkernel::early_print;
-use lkernel::early_println;
-use lkernel::early::uart0;
+use lkernel::{
+    early,
+    regapi,
+    kprint,
+    println
+};
 
 #[no_mangle]
 pub extern "C" fn kernel_init() -> ! {
-    uart0::GLOBAL.lock().init();
+    let uart = regapi::RegFile::at_addr(early::rpi3bp::UART0_BASE);
+    let gpio = regapi::RegFile::at_addr(early::rpi3bp::GPIO_BASE);
+    kprint::register_writer(early::uart0::Uart0::create_global(uart, gpio));
 
     #[cfg(test)]
     tests_main();
 
-    early_print!(">> ");
+    println!("Successfully booted.");
 
-    loop {
-        let c = uart0::GLOBAL.lock().getc();
-        if c == b'\r' {
-            early_println!();
-            early_print!(">> ");
-        } else {
-            uart0::GLOBAL.lock().putc(c);
-        }
-    }
+    loop {}
 }
 
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {
-    early_println!("{}", info);
+    println!("{}", info);
     loop {}
 }
 
