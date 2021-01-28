@@ -18,16 +18,11 @@ const GPPUD_CLK0: u32 = 0x98;
 
 // UART register offsets
 const DR: u32 = 0x00;
-const RSRECR: u32 = 0x04;
 const FR: u32 = 0x18;
 const IBRD: u32 = 0x24;
 const FBRD: u32 = 0x28;
 const LCRH: u32 = 0x2C;
 const CR: u32 = 0x30;
-const IFLS: u32 = 0x34;
-const IMSC: u32 = 0x38;
-const RIS: u32 = 0x3C;
-const MIS: u32 = 0x40;
 
 impl Uart0 {
     pub fn create_global(
