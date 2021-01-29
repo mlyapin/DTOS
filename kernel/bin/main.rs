@@ -1,8 +1,14 @@
 #![no_std]
 #![no_main]
+
 #![feature(custom_test_frameworks)]
+#![feature(naked_functions)]
+#![feature(asm)]
+
 #![test_runner(lkernel::util::testing::unit_tests_runner)]
 #![reexport_test_harness_main = "tests_main"]
+
+mod boot;
 
 use lkernel::{
     early,
